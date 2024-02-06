@@ -38,5 +38,5 @@ const modifyToHsl = (inputArray: number[]) => {
     }
   })
 
-  return modifiedArray.join(' ')
+  return modifiedArray.join(' ') + ';'
 }

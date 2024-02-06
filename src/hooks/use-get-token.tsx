@@ -87,5 +87,5 @@ export function useGetToken() {
       }
     }
   }
-  return { tokenData, getTokenData, error }
+  return { tokenData, getTokenData, error, setTokenData }
 }
