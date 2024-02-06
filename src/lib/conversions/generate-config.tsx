@@ -7,7 +7,7 @@ export interface ConfigDataType {
     hsvString?: string
     hexString?: string
   }
-  tailwindConfig: Record<string, Record<string, string>>
+  tailwindConfig: string
 }
 export const generateConfig = (
   variableName: string = 'variableName',
@@ -21,13 +21,13 @@ export const generateConfig = (
       rgbString: `rgb(${tokenData.rgb.join(', ')})`,
       hexString: tokenData.hex,
     },
-    tailwindConfig: {
-      [variableName || 'variableName']: {
-        DEFAULT: `hsl(var(--${variableName || 'variableName'}))`,
-      },
-    },
+    tailwindConfig: `${variableName || 'variableName'}: {
+    "DEFAULT": "hsl(var(--${variableName || 'variableName'}))",
+},
+`,
   }
 }
+
 const modifyToHsl = (inputArray: number[]) => {
   const modifiedArray = inputArray.map((value, index) => {
     if (index === 1 || index === inputArray.length - 1) {

@@ -24,9 +24,7 @@ export const ConfigDisplayCard = () => {
           <div className="flex-1 p-6">
             <div className="flex w-full flex-col items-start gap-2">
               <Label>tailwind.config.js</Label>
-              <CodeBlock
-                data={JSON.stringify(state.configData?.tailwindConfig, null, 2)}
-              />
+              <CodeBlock data={state.configData?.tailwindConfig} />
             </div>
           </div>
         </div>
