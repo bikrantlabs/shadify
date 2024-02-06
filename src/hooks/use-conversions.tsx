@@ -9,13 +9,16 @@ export const useConversions = () => {
       rgb,
       hsl,
       hsv,
-      hex: string.charAt(0) === '#' ? string : '#' + string,
+      hex:
+        string.charAt(0) === '#'
+          ? string.toLocaleLowerCase()
+          : '#' + string.toLocaleLowerCase(),
     }
   }
   function convertFromRgb(numbers: [number, number, number]) {
     const hsl = convert.rgb.hsl(numbers)
     const hsv = convert.rgb.hsv(numbers)
-    const hex = convert.rgb.hex(numbers)
+    const hex = convert.rgb.hex(numbers).toLocaleLowerCase()
     return {
       rgb: numbers,
       hsl,
@@ -26,7 +29,7 @@ export const useConversions = () => {
   function convertFromHsl(numbers: [number, number, number]) {
     const hsv = convert.hsl.hsv(numbers)
     const rgb = convert.hsl.rgb(numbers)
-    const hex = convert.hsl.hex(numbers)
+    const hex = convert.hsl.hex(numbers).toLocaleLowerCase()
     return {
       rgb,
       hsl: numbers,

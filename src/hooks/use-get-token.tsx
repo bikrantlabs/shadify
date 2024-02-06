@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import convert from 'color-convert'
 import { HEX, HSL, HSV, RGB } from 'color-convert/conversions'
 
 import { tokens, TokensType } from '@/types/tokens'
@@ -12,24 +11,20 @@ import { getValuesFromTokenString, removeWhitespaces } from '@/lib/utils'
 
 import { useConversions } from './use-conversions'
 
-interface TokenData {
-  hsl?: HSL
-  rgb?: RGB
-  hex?: HEX
-  hsv?: HSV
+export interface TokenData {
+  hsl: HSL
+  rgb: RGB
+  hex: HEX
+  hsv: HSV
 }
 interface ErrorType {
   message: string
   hint: string
 }
 
-interface UseGetTokenProps {
-  token: TokenData
-}
 export function useGetToken() {
   const [error, setError] = useState<ErrorType | undefined>()
   const [tokenData, setTokenData] = useState<TokenData | undefined>()
-  const [defaultToken, setDefaultToken] = useState<TokensType>('rgb')
   const { convertFromHex, convertFromRgb, convertFromHsl, convertFromHsv } =
     useConversions()
 
