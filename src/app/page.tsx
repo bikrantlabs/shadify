@@ -14,7 +14,7 @@ export default function Home() {
         <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
           {siteConfig.description}
         </p>
-        <div className="flex h-full max-h-[350px] w-full gap-2 overflow-scroll">
+        <div className="flex h-full max-h-[350px] w-full flex-col gap-2 overflow-scroll md:flex-row">
           <div className="flex-1 ">
             <ColorConversion />
           </div>
