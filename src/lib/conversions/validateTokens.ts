@@ -49,12 +49,15 @@ export function guessTokenType(input: string): TokensType | null {
    * Input is expected to be (123,123,124) or (125°,100%,100%)
    */
   const withoutWhitespaces = removeWhitespaces(input)
-
+  if (isValidHexCode(withoutWhitespaces)) {
+    return null
+  }
   const { tokenData } = getValuesFromTokenString(withoutWhitespaces)
 
   const containsDegree = checkHslDegree(withoutWhitespaces)
   const validRgb = isValidRgbCode(tokenData)
   const validHsl = isValidHslCode(tokenData)
+  console.log(`🚀 validateTokens.ts:58 ~ TokenData ~`, tokenData)
   if (!containsDegree && validRgb) {
     return 'rgb'
   }
