@@ -94,20 +94,12 @@ export function useGetToken() {
           data,
           error: null,
         }
-      } else {
-        return {
-          error: {
-            hint: 'Ensure your hex code is valid',
-            message: 'Invalid hex code',
-          },
-          data: null,
-        }
       }
     }
     return {
       error: {
-        hint: 'Input should contain valid hsl, rgb, or hsv',
-        message: 'Invalid token type',
+        hint: 'Please ensure your input data is correct',
+        message: 'Invalid color input',
       },
       data: null,
     }

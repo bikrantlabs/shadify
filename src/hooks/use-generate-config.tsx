@@ -1,5 +1,3 @@
-import { showToast } from '@/lib/toast'
-
 import { ErrorType, useGetToken } from './use-get-token'
 
 export interface ConfigDataType {
@@ -39,7 +37,7 @@ export const useGenerateConfig = () => {
             hexString: data.hex,
           },
           tailwindConfig: `"${variableName || 'variableName'}": {
-        "DEFAULT": "hsl(var(--${variableName || 'variableName'}))",
+      "DEFAULT": "hsl(var(--${variableName || 'variableName'}))",
 },`,
         },
       }

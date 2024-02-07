@@ -35,10 +35,7 @@ export const CodeBlock = ({ data }: CodeBlockProps) => {
     }
   }, [copied])
   return (
-    <button
-      onClick={copied ? () => {} : handleCopy(data)}
-      className="group relative block max-h-[650px] w-fit overflow-x-auto rounded-lg border bg-zinc-950 py-3 pl-4 pr-16 text-start text-white dark:bg-zinc-900"
-    >
+    <button className="group relative block max-h-[650px] w-fit cursor-auto select-text overflow-x-auto rounded-lg border bg-zinc-950 py-3 pl-4 pr-16 text-start text-white dark:bg-zinc-900">
       <pre className="text-sm">
         <code>{data}</code>
       </pre>
