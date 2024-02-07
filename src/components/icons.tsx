@@ -1,4 +1,12 @@
-import { Check, Command, Copy, Moon, RefreshCw, SunMedium } from 'lucide-react'
+import {
+  Check,
+  Command,
+  Copy,
+  Github,
+  Moon,
+  RefreshCw,
+  SunMedium,
+} from 'lucide-react'
 
 export type IconKeys = keyof typeof icons
 
@@ -13,6 +21,7 @@ const icons = {
   copy: Copy,
   refreshCW: RefreshCw,
   check: Check,
+  github: Github,
 }
 
 export const Icons: IconsType = icons

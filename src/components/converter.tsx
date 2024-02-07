@@ -6,7 +6,6 @@ import { showToast } from '@/lib/toast'
 import { cn } from '@/lib/utils'
 import { useConfigDataStore } from '@/hooks/use-config-data-store'
 import { useGenerateConfig } from '@/hooks/use-generate-config'
-import { useGetToken } from '@/hooks/use-get-token'
 
 import { Icons } from './icons'
 import { Button } from './ui/button'

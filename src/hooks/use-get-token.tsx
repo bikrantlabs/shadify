@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { HEX, HSL, HSV, RGB } from 'color-convert/conversions'
 
-import { tokens, TokensType } from '@/types/tokens'
+import { tokens } from '@/types/tokens'
 import {
   getValidatedToken,
   isValidHexCode,
-  isValidHslCode,
-  isValidRgbCode,
 } from '@/lib/conversions/validateTokens'
 import { showToast } from '@/lib/toast'
 import { getValuesFromTokenString, removeWhitespaces } from '@/lib/utils'
