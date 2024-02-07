@@ -1,26 +1,12 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-import { TokensType } from '@/types/tokens'
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
 export function removeWhitespaces(string: string) {
   return string.replace(/\s/g, '')
-}
-export function getToken(string: string): TokensType {
-  /**
-   * Input: "rgb(1,1,1)" - Output: "rgb"
-   * Input: "r   g b  (1,1,1)" - Output:"rgb"
-   */
-  const withoutWhitespaces = removeWhitespaces(string)
-
-  const indexOfBrace = withoutWhitespaces.indexOf('(')
-  const token = withoutWhitespaces.substring(0, indexOfBrace)
-
-  return token.toLocaleLowerCase() as TokensType
 }
 
 export function getValuesFromTokenString(inputString: string) {

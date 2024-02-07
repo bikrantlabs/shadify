@@ -1,4 +1,6 @@
-import { useGetToken } from './use-get-token'
+import { showToast } from '@/lib/toast'
+
+import { ErrorType, useGetToken } from './use-get-token'
 
 export interface ConfigDataType {
   globalsCSS: {
@@ -9,6 +11,10 @@ export interface ConfigDataType {
   }
   tailwindConfig: string
 }
+interface GenerateConfigReturnType {
+  data?: ConfigDataType
+  error?: ErrorType
+}
 export const useGenerateConfig = () => {
   const { getTokenData } = useGetToken()
 
@@ -16,25 +22,33 @@ export const useGenerateConfig = () => {
   const generateConfig = (
     variableData: string,
     variableName: string = 'variableName'
-  ): ConfigDataType | undefined => {
+  ): GenerateConfigReturnType => {
     const { data, error } = getTokenData({ input: variableData })
     if (error) {
-      return
+      return { error }
     }
     if (data) {
       const hsl = data.hsl
       const hslString = modifyToHsl(hsl)
       return {
-        globalsCSS: {
-          // !TODO: Generate --variableName-foreground: ; color also, add foreground color
-          hslString: `--${variableName || 'variableName'}: ${hslString}`,
-          rgbString: `rgb(${data.rgb.join(', ')})`,
-          hexString: data.hex,
-        },
-        tailwindConfig: `"${variableName || 'variableName'}": {
+        data: {
+          globalsCSS: {
+            // !TODO: Generate --variableName-foreground: ; color also, add foreground color
+            hslString: `--${variableName || 'variableName'}: ${hslString}`,
+            rgbString: `rgb(${data.rgb.join(', ')})`,
+            hexString: data.hex,
+          },
+          tailwindConfig: `"${variableName || 'variableName'}": {
         "DEFAULT": "hsl(var(--${variableName || 'variableName'}))",
 },`,
+        },
       }
+    }
+    return {
+      error: {
+        message: 'Unable to generate config',
+        hint: 'Ensure all inputs are valid',
+      },
     }
   }
 

@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react'
 
+import { showToast } from '@/lib/toast'
 import { useConfigDataStore } from '@/hooks/use-config-data-store'
 import { useGenerateConfig } from '@/hooks/use-generate-config'
 import { useGetToken } from '@/hooks/use-get-token'
@@ -25,23 +26,25 @@ export const ColorConversion = () => {
   const { generateConfig } = useGenerateConfig()
   const handleGenerate = (e: FormEvent) => {
     e.preventDefault()
-    const data = generateConfig(input, variableName)
-    console.log('Generated Config...', data)
+    const { data, error } = generateConfig(input, variableName)
+    if (error) {
+      showToast({
+        heading: error.message,
+        body: error.hint,
+      })
+      return
+    }
     if (data) {
       actions.setConfigData(data)
-    } else {
-      alert('Invalid Input!')
     }
   }
   // TODO: If input starts from #, and is invalid hex code, directly throw an error
   return (
-    <div className="flex w-full max-w-[350px] flex-col gap-2">
-      <Card>
+    <div className="flex h-full w-full flex-col gap-2">
+      <Card className="h-full">
         <CardHeader>
           <CardTitle>Enter Data</CardTitle>
-          <CardDescription>
-            Paste your color and generate required variables
-          </CardDescription>
+          <CardDescription>Enter your color and variable name</CardDescription>
           <CardContent className="p-0">
             <form onSubmit={handleGenerate}>
               <div className="flex w-full flex-col gap-4">

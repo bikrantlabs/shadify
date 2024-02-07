@@ -3,10 +3,12 @@ import { HEX, HSL, HSV, RGB } from 'color-convert/conversions'
 
 import { tokens, TokensType } from '@/types/tokens'
 import {
-  guessTokenType,
+  getValidatedToken,
   isValidHexCode,
+  isValidHslCode,
   isValidRgbCode,
 } from '@/lib/conversions/validateTokens'
+import { showToast } from '@/lib/toast'
 import { getValuesFromTokenString, removeWhitespaces } from '@/lib/utils'
 
 import { useConversions } from './use-conversions'
@@ -17,12 +19,12 @@ export interface TokenData {
   hex: HEX
   hsv: HSV
 }
-interface ErrorType {
+export interface ErrorType {
   message: string
   hint: string
 }
 
-type GetTokenDataReturnType = {
+export type GetTokenDataReturnType = {
   data: TokenData | null
   error: ErrorType | null
 }
@@ -33,85 +35,81 @@ export function useGetToken() {
   const { convertFromHex, convertFromRgb, convertFromHsl, convertFromHsv } =
     useConversions()
 
-  function getToken(string: string): TokensType {
-    /**
-     * Input: "rgb(1,1,1)" - Output: "rgb"
-     * Input: "r   g b  (1,1,1)" - Output:"rgb"
-     */
-    const withoutWhitespaces = removeWhitespaces(string)
-
-    const indexOfBrace = withoutWhitespaces.indexOf('(')
-    const token = withoutWhitespaces.substring(0, indexOfBrace)
-
-    return token.toLocaleLowerCase() as TokensType
-  }
-
   function getTokenData({ input }: { input: string }): GetTokenDataReturnType {
     setError(undefined)
     setTokenData(undefined)
     const trimmedInput = removeWhitespaces(input)
 
-    if (isValidHexCode(trimmedInput)) {
-      const data = convertFromHex(trimmedInput)
-      setTokenData(data)
-      setError(undefined)
+    const { token, error } = getValidatedToken(trimmedInput)
+    if (error) {
       return {
-        data,
-        error: null,
+        data: null,
+        error,
       }
-    } else {
-      let token = getToken(trimmedInput)
-      const { tokenData } = getValuesFromTokenString(trimmedInput)
-      if (token && !tokens.includes(token)) {
-        setTokenData(undefined)
-        setError({
+    }
+    if (token && !tokens.includes(token)) {
+      return {
+        error: {
           hint: 'Input should contain valid hsl, rgb, or hsv',
           message: 'Invalid token type',
+        },
+        data: null,
+      }
+    }
+    if (token) {
+      const { tokenData } = getValuesFromTokenString(trimmedInput)
+      if (token === 'rgb') {
+        showToast({
+          heading: 'Detected RGB',
+          body: 'Generated config from rgb!',
         })
+        const data = convertFromRgb(tokenData)
+        return { data, error: null }
+      }
+      if (token === 'hsl') {
+        showToast({
+          heading: 'Detected HSL',
+          body: 'Generated config from hsl!',
+        })
+        const data = convertFromHsl(tokenData)
+        return { data, error: null }
+      }
+      if (token === 'hsv') {
+        showToast({
+          heading: 'Detected HSV',
+          body: 'Generated config from hsv!',
+        })
+        const data = convertFromHsv(tokenData)
+        return { data, error: null }
+      }
+    }
+
+    if (!token) {
+      if (isValidHexCode(trimmedInput)) {
+        // Valid Hex
+        showToast({
+          heading: 'Detected HEX',
+          body: 'Generated config from hex!',
+        })
+        const data = convertFromHex(trimmedInput)
+        return {
+          data,
+          error: null,
+        }
+      } else {
         return {
           error: {
-            hint: 'Input should contain valid hsl, rgb, or hsv',
-            message: 'Invalid token type',
+            hint: 'Ensure your hex code is valid',
+            message: 'Invalid hex code',
           },
           data: null,
         }
       }
-      if (!token) {
-        // Either automatically guess token type or throw invalid input
-        token = guessTokenType(trimmedInput)
-      }
-      if (token === 'rgb') {
-        const isValidRgb = isValidRgbCode(tokenData)
-        if (!isValidRgb) {
-          setError({
-            hint: 'Ensure all values in rgb are less than 255',
-            message: 'Invalid RGB Code',
-          })
-          return {
-            error: {
-              hint: 'Ensure all values in rgb are less than 255',
-              message: 'Invalid RGB Code',
-            },
-            data: null,
-          }
-        }
-        const data = convertFromRgb(tokenData)
-        setTokenData(data)
-        return { data, error: null }
-      } else if (token === 'hsl') {
-        const data = convertFromHsl(tokenData)
-        setTokenData(data)
-        return { data, error: null }
-      } else if (token === 'hsv') {
-        const data = convertFromHsv(tokenData)
-        setTokenData(data)
-        return { data, error: null }
-      }
     }
     return {
       error: {
-        hint: 'Check your input and try again',
-        message: 'Error converting',
+        hint: 'Input should contain valid hsl, rgb, or hsv',
+        message: 'Invalid token type',
       },
       data: null,
     }

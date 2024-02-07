@@ -43,13 +43,13 @@ export const CodeBlock = ({ data }: CodeBlockProps) => {
         <code>{data}</code>
       </pre>
       {copied ? (
-        <button className="absolute right-2 top-2 rounded-md bg-secondary p-1.5">
+        <button className="absolute left-2 top-2 rounded-md bg-secondary p-1.5 md:right-2">
           <Icons.check className="h-[14px] w-[14px] stroke-[1px]" />
         </button>
       ) : (
         <button
           onClick={handleCopy(data)}
-          className="invisible absolute right-2 top-2 rounded-md p-1.5 hover:bg-muted-foreground group-hover:visible dark:hover:bg-secondary"
+          className="invisible absolute left-2 top-2 rounded-md p-1.5 hover:bg-muted-foreground group-hover:visible dark:hover:bg-secondary md:right-2"
         >
           <Icons.copy className="h-[14px] w-[14px] stroke-[1px]" />
         </button>

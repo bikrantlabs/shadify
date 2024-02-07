@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
+import { Toaster } from '@/components/ui/sonner'
 import { Navbar } from '@/components/navbar'
 import { ThemeProvider } from '@/components/theme-provider'
 
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <Navbar />
           {children}
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>
