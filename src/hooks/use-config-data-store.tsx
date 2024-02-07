@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { ConfigDataType } from '../lib/conversions/generate-config'
+import { ConfigDataType } from './use-generate-config'
 
 type State = {
   configData: ConfigDataType | undefined

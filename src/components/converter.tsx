@@ -1,9 +1,9 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
-import { generateConfig } from '@/lib/conversions/generate-config'
 import { useConfigDataStore } from '@/hooks/use-config-data-store'
+import { useGenerateConfig } from '@/hooks/use-generate-config'
 import { useGetToken } from '@/hooks/use-get-token'
 
 import { Icons } from './icons'
@@ -21,24 +21,19 @@ import { Label } from './ui/label'
 export const ColorConversion = () => {
   const [input, setInput] = useState('')
   const [variableName, setVariableName] = useState('')
-  const { getTokenData, tokenData, setTokenData } = useGetToken()
   const { actions } = useConfigDataStore((state) => state)
-  useEffect(() => {
-    getTokenData({ input: input })
-    if (tokenData) {
-      const config = generateConfig(variableName, tokenData)
-      actions.setConfigData(config)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenData?.hex, input, variableName])
+  const { generateConfig } = useGenerateConfig()
   const handleGenerate = (e: FormEvent) => {
     e.preventDefault()
-    getTokenData({ input: input })
-    if (tokenData) {
-      const config = generateConfig(variableName, tokenData)
-      actions.setConfigData(config)
+    const data = generateConfig(input, variableName)
+    console.log('Generated Config...', data)
+    if (data) {
+      actions.setConfigData(data)
+    } else {
+      alert('Invalid Input!')
     }
   }
+  // TODO: If input starts from #, and is invalid hex code, directly throw an error
   return (
     <div className="flex w-full max-w-[350px] flex-col gap-2">
       <Card>
