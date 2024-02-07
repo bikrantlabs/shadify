@@ -13,7 +13,7 @@ export const Navbar = () => {
           <Logo />
           <div className="ml-auto flex items-center gap-4">
             <ModeToggle />
-            <Button size="icon" variant="outline" asChild>
+            <Button size="icon" variant="ghost" asChild>
               <Link
                 href="https://github.com/BikrantJung/shadify"
                 target="_blank"
