@@ -9,6 +9,7 @@ type State = {
 
 type Actions = {
   setConfigData: (data: ConfigDataType) => void
+  clearConfigData: () => void
 }
 export const initialConfigDataState: State = {
   configData: undefined,
@@ -24,6 +25,13 @@ export const useConfigDataStore = create<StateActions>((set) => ({
       set(() => ({
         state: {
           configData: newState,
+        },
+      })),
+
+    clearConfigData: () =>
+      set(() => ({
+        state: {
+          configData: undefined,
         },
       })),
   },

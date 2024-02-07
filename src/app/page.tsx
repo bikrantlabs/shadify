@@ -14,13 +14,11 @@ export default function Home() {
         <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
           {siteConfig.description}
         </p>
-        <div className="flex w-full max-w-[600px] flex-col gap-2  overflow-scroll md:max-w-max md:flex-row">
+        <div className="flex w-full max-w-[600px] flex-col gap-2  overflow-scroll md:max-w-[56rem] md:flex-row">
           <div className="h-full w-full flex-1">
             <ColorConversion />
           </div>
-          <div className="h-full flex-[2_2_0%]">
-            <ConfigDisplayCard />
-          </div>
+          <ConfigDisplayCard />
         </div>
       </div>
     </main>
